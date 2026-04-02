@@ -1,26 +1,47 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-surface-dark: #0f172a;
+  --color-surface-card: #1e293b;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* 
+ * Global cleanups 
+ * Next.js removes default margins, but we want to ensure
+ * inputs and textareas have consistent styling everywhere.
+ */
+@layer base {
+  body {
+    @apply bg-surface-dark text-slate-100;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 
+ * Custom glassmorphism utilities for our high-end SaaS feel
+ * Used for cards, modals, and sticky headers.
+ */
+@layer utilities {
+  .glass-card {
+    @apply bg-surface-card/80 backdrop-blur-md border border-slate-700/50 shadow-xl rounded-xl;
+  }
+  
+  .glass-panel {
+    @apply bg-slate-800/60 backdrop-blur-lg border border-slate-600/30 shadow-2xl rounded-2xl;
+  }
+}
+
+/* Custom scrollbar for webkit (Chrome/Safari/Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155; /* slate-700 */
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569; /* slate-600 */
 }
