@@ -24,44 +24,38 @@ import { api } from '@/lib/api';
 const CATEGORIES = ['Bug', 'Feature Request', 'Improvement', 'Other'];
 
 export default function FeedbackForm() {
-  // ---- Hydration State ----
-  // Suppress hydration warnings from browser extensions adding attributes like fdprocessedid
+  // Hydration State
   const [isMounted, setIsMounted] = React.useState(false);
   React.useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // ---- Form State ----
+  // Form State
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    category: 'Feature Request', // Default category
+    category: 'Feature Request', 
     name: '',
     email: '',
   });
 
-  // ---- UI State ----
+  //  UI State 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   
-  // We store the submitted feedback data so we can show AI tags on the success screen
   const [submittedData, setSubmittedData] = useState<any>(null);
 
-  // Character counter for the description requirement (Requirement 1.6: Nice to Have)
   const descLength = formData.description.length;
   const isDescValid = descLength >= 20;
 
-  // Generic change handler for text inputs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Main submission handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Client-side validation: title exists, desc >= 20 chars
     if (!formData.title.trim()) {
       toast.error('Title is required');
       return;
@@ -73,9 +67,7 @@ export default function FeedbackForm() {
 
     setIsSubmitting(true);
     
-    // We wrap this in a customized toast.promise
-    // It automatically shows "Submitting...", then Success, or Error based on the API result
-    try {
+  try {
       const response = await api.post('/feedback', {
         title: formData.title,
         description: formData.description,
@@ -84,10 +76,8 @@ export default function FeedbackForm() {
         submitterEmail: formData.email,
       });
 
-      // Save the API response data so we can display it on the success screen
       setSubmittedData(response.data.data);
       
-      // We don't use toast.success here because we show the big success screen instead
       toast('Feedback submitted successfully!', {
         icon: '🚀',
         style: { background: '#1e293b', color: '#fff' }
@@ -98,7 +88,6 @@ export default function FeedbackForm() {
     } catch (error: any) {
       console.error('Submission error:', error);
       
-      // If it's a 429 rate limit error, show a specific message
       if (error.response?.status === 429) {
         toast.error('Whoa there! You have submitted too much feedback. Please wait an hour.');
       } else {
@@ -115,11 +104,6 @@ export default function FeedbackForm() {
     setSubmittedData(null);
   };
 
-  // ==========================================
-  // VIEW: SUCCESS SCREEN
-  // This is a major differentiator. Instead of just a toast,
-  // we give the user immediate feedback that their ideas are being processed.
-  // ==========================================
   if (isSuccess) {
     return (
       <div className="flex flex-col items-center justify-center py-8 text-center space-y-6 animate-in fade-in zoom-in duration-500">
@@ -134,11 +118,6 @@ export default function FeedbackForm() {
           </p>
         </div>
 
-        {/* 
-          Feature: "Show AI tags back to submitter"
-          Since AI runs asynchronously on the backend, we show an 'Analyzing...' state here.
-          If we used a WebSocket this would update live, but for REST API we tell the user what's happening.
-        */}
         <div className="p-4 bg-slate-900/50 rounded-xl border border-slate-700/50 w-full mb-4">
           <div className="flex items-center space-x-2 text-indigo-400 font-medium mb-3">
             <Sparkles size={16} />
@@ -164,13 +143,9 @@ export default function FeedbackForm() {
     );
   }
 
-  // ==========================================
-  // VIEW: SUBMISSION FORM
-  // ==========================================
   
-  // Avoid hydration mismatch by only rendering after component mounts
   if (!isMounted) {
-    return <div className="space-y-5 h-96" />; // Empty placeholder during SSR
+    return <div className="space-y-5 h-96" />;
   }
 
   return (
@@ -185,7 +160,7 @@ export default function FeedbackForm() {
         value={formData.category}
         onChange={handleChange}
         disabled={isSubmitting}
-        variant="filled" // Filled variant looks best in dark mode
+        variant="filled" 
         sx={inputStyles}
         suppressHydrationWarning
       >
@@ -227,7 +202,6 @@ export default function FeedbackForm() {
           suppressHydrationWarning
           sx={{
             ...inputStyles,
-            // If invalid length, change border color to warn user
             '& .MuiFilledInput-root': {
               ...inputStyles['& .MuiFilledInput-root'],
               borderBottomColor: (!isDescValid && descLength > 0) ? '#ef4444' : 'transparent',
@@ -303,39 +277,35 @@ export default function FeedbackForm() {
   );
 }
 
-// ----------------------------------------------------
-// UI CONSTANTS — Customizing MUI for a modern "Glass" look
-// ----------------------------------------------------
 const inputStyles = {
   // Target the container
   '& .MuiFilledInput-root': {
-    backgroundColor: 'rgba(30, 41, 59, 0.4)', // Slate-800 translucent
+    backgroundColor: 'rgba(30, 41, 59, 0.4)',
     borderRadius: '8px',
-    border: '1px solid rgba(51, 65, 85, 0.6)', // Slate-700 border
+    border: '1px solid rgba(51, 65, 85, 0.6)',
     transition: 'all 0.2s',
     '&:hover': {
       backgroundColor: 'rgba(30, 41, 59, 0.6)',
     },
     '&.Mui-focused': {
-      backgroundColor: 'rgba(15, 23, 42, 0.8)', // Darker on focus
-      borderColor: '#14b8a6', // Teal border on focus
+      backgroundColor: 'rgba(15, 23, 42, 0.8)',
+      borderColor: '#14b8a6', 
       boxShadow: '0 0 0 1px #14b8a6',
     },
-    // Hide the default underline animation in MUI
     '&:before, &:after': {
       display: 'none',
     },
   },
   // Target the label
   '& .MuiInputLabel-root': {
-    color: '#94a3b8', // Slate-400
+    color: '#94a3b8', 
     '&.Mui-focused': {
-      color: '#2dd4bf', // Teal-400
+      color: '#2dd4bf', 
     },
   },
   // Target the input text
   '& .MuiInputBase-input': {
-    color: '#f8fafc', // Slate-50
+    color: '#f8fafc', 
   },
   // Target dropdown icon
   '& .MuiSvgIcon-root': {

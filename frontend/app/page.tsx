@@ -6,16 +6,12 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-900 bg-[url('/bg-grid.svg')] bg-center relative overflow-hidden flex flex-col items-center justify-center p-4">
       
-      {/* 
-        Background glows (ambient lighting effect)
-        This creates the premium "vibrant colors" look requirement
-      */}
       <div className="absolute top-10 left-10 w-64 h-64 bg-teal-500/20 rounded-full blur-[100px] -z-10" />
       <div className="absolute bottom-10 right-10 w-72 h-72 bg-indigo-500/20 rounded-full blur-[120px] -z-10" />
       
       <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center z-10">
         
-        {/* Left Side: Product Pitch & Value Prop */}
+        {/* Product Pitch*/}
         <div className="space-y-8">
           <div className="space-y-4">
             {/* Tagline Badge */}

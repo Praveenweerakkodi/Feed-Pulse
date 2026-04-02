@@ -5,21 +5,13 @@
   --color-surface-card: #1e293b;
 }
 
-/* 
- * Global cleanups 
- * Next.js removes default margins, but we want to ensure
- * inputs and textareas have consistent styling everywhere.
- */
 @layer base {
   body {
     @apply bg-surface-dark text-slate-100;
   }
 }
 
-/* 
- * Custom glassmorphism utilities for our high-end SaaS feel
- * Used for cards, modals, and sticky headers.
- */
+
 @layer utilities {
   .glass-card {
     @apply bg-surface-card/80 backdrop-blur-md border border-slate-700/50 shadow-xl rounded-xl;
@@ -30,7 +22,6 @@
   }
 }
 
-/* Custom scrollbar for webkit (Chrome/Safari/Edge) */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -39,9 +30,9 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155; /* slate-700 */
+  background: #334155; 
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569; /* slate-600 */
+  background: #475569;
 }
