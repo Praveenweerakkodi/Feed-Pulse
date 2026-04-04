@@ -1,20 +1,22 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
+:root {
   --color-surface-dark: #0f172a;
   --color-surface-card: #1e293b;
 }
 
 @layer base {
   body {
-    @apply bg-surface-dark text-slate-100;
+    background-color: var(--color-surface-dark);
+    color: #f8fafc;
   }
 }
 
-
 @layer utilities {
   .glass-card {
-    @apply bg-surface-card/80 backdrop-blur-md border border-slate-700/50 shadow-xl rounded-xl;
+    @apply bg-slate-900/80 backdrop-blur-md border border-slate-700/50 shadow-xl rounded-xl;
   }
   
   .glass-panel {
