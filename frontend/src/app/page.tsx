@@ -1,5 +1,5 @@
 import React from 'react';
-import FeedbackForm from '@/components/FeedbackForm';
+import FeedbackForm from '../components/FeedbackForm';
 import { Lightbulb, MessagesSquare, Zap } from 'lucide-react';
 
 export default function Home() {
