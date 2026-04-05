@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongo:
+    image: mongo:7
+    container_name: feedpulse-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+    - MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+    - MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: feedpulse
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - feedpulse-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API Server
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: feedpulse-backend
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - MONGO_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo:27017/feedpulse?authSource=admin
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET:-your-secret-key-change-in-production}
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - feedpulse-network
+    volumes:
+      - ./backend/dist:/app/dist
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Frontend Next.js Application
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: feedpulse-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:4000
+    depends_on:
+      - backend
+    networks:
+      - feedpulse-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  mongo_data:
+    driver: local
+
+networks:
+  feedpulse-network:
+    driver: bridge
