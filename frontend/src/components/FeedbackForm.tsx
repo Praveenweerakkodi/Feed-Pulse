@@ -98,9 +98,10 @@ export default function FeedbackForm() {
     } catch (error: any) {
       console.error('Submission error:', error);
       
-      // If it's a 429 rate limit error, show a specific message
+      // If it's a 429 rate limit error, show the backend message
       if (error.response?.status === 429) {
-        toast.error('Whoa there! You have submitted too much feedback. Please wait an hour.');
+        const rateLimitMessage = error.response?.data?.message || 'You have submitted too much feedback. Please wait 1 hour before submitting again.';
+        toast.error(rateLimitMessage);
       } else {
         toast.error(error.response?.data?.message || 'Failed to submit feedback. Please try again.');
       }
