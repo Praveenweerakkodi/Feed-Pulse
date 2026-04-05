@@ -33,7 +33,24 @@ A modern full-stack application for collecting, categorizing, and prioritizing u
 - MongoDB 7
 - Node.js 20 Alpine
 
-## 🛠️ Quick Start
+## � Screenshots
+
+### Home Page - Feedback Submission
+Submit feedback with an intuitive, modern form. Real-time validation and character counter for description field.
+
+![Home Page](./screenshots/home-page.png)
+
+### Admin Login
+Secure login page for admin access to the dashboard. JWT-based authentication with rate limiting.
+
+![Login Page](./screenshots/login-page.png)
+
+### Admin Dashboard
+Comprehensive dashboard for managing feedback. View, filter, sort, and update feedback with real-time stats and AI-generated summaries.
+
+![Dashboard](./screenshots/dashboard.png)
+
+## �🛠️ Quick Start
 
 ### Option 1: Using Docker (Recommended)
 
@@ -122,8 +139,8 @@ NODE_ENV=development
 PORT=4000
 MONGO_URI=mongodb://localhost:27017/feedpulse
 GEMINI_API_KEY=your_api_key_here
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=password
+ADMIN_USERNAME=admin@feedpulse.com
+ADMIN_PASSWORD=Admin@123
 JWT_SECRET=your-secret-key
 EOF
 
@@ -305,18 +322,18 @@ Analysis runs asynchronously and completes within seconds.
 ```typescript
 {
   _id: ObjectId,
-  title: String,                          // User's title
-  description: String,                    // Detailed feedback
+  title: String,                         
+  description: String,                    
   category: "Bug" | "Feature Request" | "Improvement" | "Other",
   status: "New" | "In Review" | "Resolved",
   submitterName?: String,
   submitterEmail?: String,
-  submitterIp: String,                    // For rate limiting
+  submitterIp: String,                   
   
   // AI-generated fields
   ai_category?: String,
   ai_sentiment?: "Positive" | "Neutral" | "Negative",
-  ai_priority?: Number,                   // 1-10
+  ai_priority?: Number,                 
   ai_summary?: String,
   ai_tags?: [String],
   ai_processed: Boolean,
@@ -331,7 +348,7 @@ Analysis runs asynchronously and completes within seconds.
 {
   _id: ObjectId,
   username: String,
-  password: String,                       // bcrypt hashed
+  password: String,                       
   createdAt: Date,
   updatedAt: Date
 }
@@ -345,8 +362,8 @@ NODE_ENV=production|development
 PORT=4000
 MONGO_URI=mongodb://admin:password@mongo:27017/feedpulse?authSource=admin
 GEMINI_API_KEY=your_api_key
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=password
+ADMIN_USERNAME=admin@feedpulse.com
+ADMIN_PASSWORD=Admin@123
 JWT_SECRET=your-secret-key
 ```
 
