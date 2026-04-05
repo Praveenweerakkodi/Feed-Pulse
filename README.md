@@ -2,6 +2,8 @@
 
 A modern full-stack application for collecting, categorizing, and prioritizing user feedback using Google Gemini AI.
 
+This is my deployed live link: https://feedpulse-gamma.vercel.app/ 
+
 ## 🚀 Features
 
 - **Smart Feedback Collection**: Simple, user-friendly submission form with real-time validation
@@ -32,6 +34,8 @@ A modern full-stack application for collecting, categorizing, and prioritizing u
 - Docker & Docker Compose
 - MongoDB 7
 - Node.js 20 Alpine
+
+
 
 ## � Screenshots
 
