@@ -2,7 +2,7 @@
 
 A modern full-stack application for collecting, categorizing, and prioritizing user feedback using Google Gemini AI.
 
-This is my deployed live link: https://feedpulse-gamma.vercel.app/ 
+This is my deployed live link: https://feedpulse-delta.vercel.app 
 
 ## 🚀 Features
 
