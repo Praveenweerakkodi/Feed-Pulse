@@ -9,7 +9,7 @@ import {
   Menu, MenuItem, IconButton, InputBase, Select, FormControl, InputLabel,
   Pagination, Box
 } from '@mui/material';
-import { LogOut, Filter, ArrowUpDown, Search, RefreshCw } from 'lucide-react';
+import { LogOut, Filter, ArrowUpDown, Search, RefreshCw, Zap } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 // Import our custom components
@@ -188,7 +188,7 @@ export default function DashboardPage() {
         <Toolbar className="flex justify-between max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
           
           <div className="flex items-center space-x-2">
-             <div className="w-8 h-8 rounded-lg bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold">FP</div>
+             <div className="w-8 h-8 rounded-lg bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold"><Zap size={20} /></div>
              <Typography variant="h6" sx={{ fontWeight: 700, color: 'white', display: { xs: 'none', sm: 'block' } }}>
                FeedPulse
              </Typography>
@@ -203,7 +203,7 @@ export default function DashboardPage() {
               placeholder="Search title or AI summary..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && setPage(1)} // Trigger re-render on Enter
+              onKeyDown={(e) => e.key === 'Enter' && setPage(1)} 
               fullWidth
               sx={{ 
                 pl: 5, pr: 2, py: 0.75, 

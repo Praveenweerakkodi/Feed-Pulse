@@ -65,6 +65,12 @@ export default function Home() {
             {/* The actual interactive form is an isolated Client Component */}
             <FeedbackForm />
             
+            {/* Rate Limit Notice */}
+            <div className="mt-6 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+              <p className="text-xs text-amber-200">
+                <span className="font-semibold">Rate Limit:</span> You can submit feedback once per hour. If you exceed this limit, you'll need to wait 1 hour before submitting again.
+              </p>
+            </div>
           </div>
           
           {/* Admin link hidden quietly at the bottom for easy access */}
