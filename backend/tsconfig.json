@@ -14,8 +14,9 @@
     "declarationMap": true,
     "sourceMap": true,
     "allowJs": true,
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "types": ["jest", "node"]
   },
   "include": ["./**/*.ts"],
-  "exclude": ["node_modules", "dist", "tests"]
+  "exclude": ["node_modules", "dist"]
 }
